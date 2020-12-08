@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         edit_username_button.setOnClickListener(new edit_username());
 
 
-        //设置添加按钮监听器
+        //设置添加日记按钮监听器，并将username传入intent
         addDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         //设置ListView监听器
         // 如果点击则跳转
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -77,10 +78,12 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Diary diary=diaryList.get(position);
                 Intent intent=new Intent(MainActivity.this,EditActivity.class);
+                String ti=diary.getTitle().substring(3),
+                intent_time=diary.getTime().substring(5);
                 //传输标题
-                intent.putExtra("title",diary.getTitle());
+                intent.putExtra("title",ti);
                 //传输时间
-                intent.putExtra("time",diary.getTime());
+                intent.putExtra("time",intent_time);
                 //作者名字
                 intent.putExtra("name",username.getText().toString());
                 //记录点击的标题
@@ -109,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                                 String a=diary.getTitle().substring(3);
                                 String b=diary.getTime().substring(5);
                                 String[] id={a+b};
+
                                 db.delete("diary", "diary_id=?",id );    //把对应数据删除
                                 Cursor cursor=db.query("diary",null,null,null,null,null,null);
                                 diaryList.clear();  //清空当前ListView重新写入
@@ -140,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString("username"+changed_name,changed_name);
                 editor.commit();
                 name=changed_name;
+                Toast.makeText(MainActivity.this,"修改成功！",Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(MainActivity.this,"两次用户名不能相同,请重新输入！",Toast.LENGTH_SHORT).show();
             }

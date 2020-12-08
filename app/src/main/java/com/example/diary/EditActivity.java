@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -20,21 +21,15 @@ import java.util.Date;
 
 public class EditActivity extends AppCompatActivity {
 
-    private String username;
+    private String username="";
     private String title="";
     private String time="";
     private String id="";
     private EditText title_text;
     private EditText content_text;
+    private TextView creator;
     private MyDatabaseHelper dbHelper;
-    private Button back,save,take_photo,choose_photo,delete_photo;
-//    private Uri imageUri;
-//    public static String imagePath =""; //图片路径
-//    public ImageView imageView;
-//    public static final int TAKE_PHOTO = 1;
-//    public static final int CHOOSE_PHOTO = 2;
-//    private boolean isNew=true;
-
+    private Button back,save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +37,6 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         final Intent intent=getIntent();
-        //用户名，标题，创建时间
-        username=intent.getStringExtra("name");
-        if (title.length()!=0)
-            title=intent.getStringExtra("title").substring(3);
-        if(time.length()!=0)
-            time=intent.getStringExtra("time").substring(5);
-
-
 
         //加载组件
         back=(Button)findViewById(R.id.back);
@@ -58,29 +45,45 @@ public class EditActivity extends AppCompatActivity {
         save.setOnClickListener(new saveButton());
         title_text=(EditText)findViewById(R.id.title);
         content_text=(EditText)findViewById(R.id.content);
+        creator=(TextView)findViewById(R.id.creator);
 
         dbHelper =new MyDatabaseHelper(this,"Diary.db",null,1);
         SQLiteDatabase db=dbHelper.getWritableDatabase();
 
-        //若显示数据库中的日记
-        Cursor cursor=db.query("diary",null,null,null,null,null,null);
-        if(cursor.moveToFirst()){
-            do{
-                String temp_title=cursor.getString(cursor.getColumnIndex("diary_title"));
-                String temp_time=cursor.getString(cursor.getColumnIndex("diary_time"));
-//                Log.d("find","找到2");
-                if (temp_time.equals(time)&&temp_title.equals(title)){//数据库中存在点进的item
-                    //添加到内容文本
-                    Log.d("find","找到");
-                    String content=cursor.getString(cursor.getColumnIndex("diary_content"));
-                    content_text.setText(content);
-                    title_text.setText(temp_title);
-                    id=temp_title+temp_time;//获取对应位置的id
-                    title=temp_title;
-                    time=temp_time;
-                }
-            }while(cursor.moveToNext());
+       //标题，创建时间
+        title=intent.getStringExtra("title");
+        time=intent.getStringExtra("time");
+        if (title!=null){
+            //若显示数据库中的日记
+            Cursor cursor=db.query("diary",null,null,null,null,null,null);
+            if(cursor.moveToFirst()){
+                do{
+                    String temp_title=cursor.getString(cursor.getColumnIndex("diary_title"));
+                    String temp_time=cursor.getString(cursor.getColumnIndex("diary_time"));
+                    String temp_username=cursor.getString((cursor.getColumnIndex("diary_author")));
+                    if (temp_time.equals(time)&&temp_title.equals(title)){//数据库中存在点进的item
+                        //添加到内容文本
+                        String content=cursor.getString(cursor.getColumnIndex("diary_content"));
+                        content_text.setText(content);
+                        title_text.setText(temp_title);
+                        id=temp_title+temp_time;//获取对应位置的id
+                        title=temp_title;
+                        time=temp_time;
+                        username=temp_username;
+                    }
+                }while(cursor.moveToNext());
+            }
+        }else{
+            //用户名
+            username=intent.getStringExtra("name");
+
         }
+        creator.setText("创建者:"+username);
+
+
+
+
+
 
 
     }

@@ -24,11 +24,16 @@
                 android:layout_height="match_parent"
                 android:id="@+id/save"
                 android:text="保存"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/creator"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,40 +66,6 @@
                     android:gravity="top"/>
             </LinearLayout>
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal">-->
-<!--                    <Button-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="拍照"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:id="@+id/take"/>-->
-<!--                    <Button-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="从相册选取照片"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:id="@+id/choose"/>-->
-<!--                    <Button-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="删除照片"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:id="@+id/delete"/>-->
-<!--                </LinearLayout>-->
-<!--                <ImageView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:id="@+id/IamgeView"></ImageView>-->
-
-<!--            </LinearLayout>-->
 
         </LinearLayout>
 
